@@ -1,4 +1,4 @@
 AluguerCarros
 =============
 
-Projecto AluguerCarros
+Projecto AluguerCarros C++/MYSQL
