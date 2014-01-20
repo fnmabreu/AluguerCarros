@@ -1,19 +1,15 @@
-/* 
- * File:   main.cpp
- * Author: fabio
- *
- * Created on January 19, 2014, 7:56 PM
- */
-
-#include <cstdlib>
+#include <iostream>
+#include <string>
 
 using namespace std;
 
-/*
- * 
- */
-int main(int argc, char** argv) {
+#include "Teste.h"
 
-    return 0;
+int main()
+{
+    Teste t = Teste();
+    //t.novoCliente();
+    t.listaClientes();
+    //t.novoTipoCarro();
+return 0;
 }
-
