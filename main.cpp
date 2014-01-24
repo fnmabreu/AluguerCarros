@@ -3,29 +3,12 @@
 
 using namespace std;
 
-#include "Teste.h"
+#include "Menu.h"
 
 int main() {
-    Teste t = Teste();
     
-    /*CRIAR NOVO*/
-    
-    //t.novoCliente();
-    //t.novoTipoCarro();
-    //t.novoCarro();
-    //t.novoExtra();
-    //t.novoAluguer();
-    
-    /*LISTAR*/
-    
-    //t.listaCarros();
-    //t.listaClientes();
-    //t.listaCarros();
-    //t.listaExtras();
-    //t.listaAlugueres();
-    
-    /*PESQUISA*/
-    //t.pesquisaAlugueres();
+    Menu start = Menu();
+    start.menuPrincipal();
     
     return 0;
 }

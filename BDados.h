@@ -55,6 +55,11 @@ public:
     double listaPrecoExtra();
     list<Aluguer> pesquisaAluguer(string dataLev);
     list<Extras> pesquisaExtras(int numAluguer);
+    list<Cliente> pesquisaCliente(string nome);
+
+    void eliminarCliente(int numCliente);
+
+    void editarCliente(int numCliente, string nome, int id, int cc, string contacto);
 
     int calculaDifDatas(string dataLev, string dataEnt, string horaLev, string horaEnt);
 };
@@ -298,6 +303,31 @@ list<Aluguer> BDados::pesquisaAluguer(string dataLev) {
     return ret;
 }
 
+list<Cliente> BDados::pesquisaCliente(string nome) {
+
+    stringstream out;
+    list<Cliente> ret;
+    bool encontrouAlugueres = false;
+
+    out << "SELECT * FROM clientes where nome LIKE '%" << nome << "%'";
+    string sql = out.str();
+    instrucao = ligacao->prepareStatement(sql);
+    rset = instrucao->executeQuery();
+
+    while (rset->next()) {
+        encontrouAlugueres = true;
+        Cliente c(rset->getInt(1), rset->getString(2), rset->getInt(3), rset->getInt(4), rset->getString(5));
+        ret.push_back(c);
+    }
+
+    if (encontrouAlugueres == false) {
+        cout << "\t** Não existe nenhum cliente com o respectivo nome!" << endl;
+    }
+    instrucao->close();
+
+    return ret;
+}
+
 list<Extras> BDados::pesquisaExtras(int numAluguer) {
 
     stringstream out;
@@ -321,6 +351,59 @@ list<Extras> BDados::pesquisaExtras(int numAluguer) {
     instrucao->close();
 
     return ret;
+}
+
+void BDados::eliminarCliente(int numCliente) {
+    stringstream out;
+    out << "DELETE FROM clientes WHERE num_cliente = " << numCliente;
+    string sql = out.str();
+    instrucao = ligacao->prepareStatement(sql);
+    instrucao->executeUpdate();
+    ligacao->commit();
+    ligacao->close();
+}
+
+void BDados::editarCliente(int numCliente, string nome, int id, int cc, string contacto) {
+    string sql;
+
+    if (nome != "") {
+        stringstream out;
+        out << "UPDATE clientes SET nome = '" << nome << "' WHERE num_cliente = " << numCliente;
+        sql = out.str();
+        instrucao = ligacao->prepareStatement(sql);
+        instrucao->executeUpdate();
+        ligacao->commit();
+    }
+
+    if (id != 0) {
+        stringstream out;
+        out << "UPDATE clientes SET doc_id = " << id << " WHERE num_cliente = " << numCliente;
+        sql = out.str();
+        instrucao = ligacao->prepareStatement(sql);
+        instrucao->executeUpdate();
+        ligacao->commit();
+    }
+
+    if (cc != 0) {
+        stringstream out;
+        out << "UPDATE clientes SET cc = " << cc << " WHERE num_cliente = " << numCliente;
+        sql = out.str();
+        instrucao = ligacao->prepareStatement(sql);
+        instrucao->executeUpdate();
+        ligacao->commit();
+    }
+
+    if (contacto != "") {
+        stringstream out;
+        out << "UPDATE clientes SET contacto = '" << contacto << "' WHERE num_cliente = " << numCliente;
+        sql = out.str();
+        instrucao = ligacao->prepareStatement(sql);
+        instrucao->executeUpdate();
+        ligacao->commit();
+    }
+
+    ligacao->close();
+
 }
 
 /**

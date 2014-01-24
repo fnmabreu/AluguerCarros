@@ -10,6 +10,7 @@
       <itemPath>Cliente.h</itemPath>
       <itemPath>Data.h</itemPath>
       <itemPath>Extras.h</itemPath>
+      <itemPath>Menu.h</itemPath>
       <itemPath>Teste.h</itemPath>
       <itemPath>TipoCarro.h</itemPath>
     </logicalFolder>
@@ -69,6 +70,8 @@
       </item>
       <item path="Extras.h" ex="false" tool="3" flavor2="0">
       </item>
+      <item path="Menu.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="Teste.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="TipoCarro.h" ex="false" tool="3" flavor2="0">
@@ -107,6 +110,8 @@
       <item path="Data.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Extras.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="Menu.h" ex="false" tool="3" flavor2="0">
       </item>
       <item path="Teste.h" ex="false" tool="3" flavor2="0">
       </item>

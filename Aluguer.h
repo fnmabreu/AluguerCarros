@@ -160,6 +160,7 @@ void Aluguer::escreve(ostream &out) const {
             << "\n\n\tPreco Total: " << precoTotal << " euros" << endl << endl;
 }
 
+
 ostream & operator <<(ostream &out, const Aluguer &a) {
     a.escreve(out);
     return out;

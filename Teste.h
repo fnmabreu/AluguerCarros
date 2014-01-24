@@ -36,8 +36,7 @@ public:
     void listaAlugueres();
 
     void pesquisaAlugueres();
-
-    void calculaDifDatas();
+    void pesquisaClientes();
 
 };
 
@@ -51,7 +50,7 @@ Teste::~Teste() {
  * Cria novo cliente na Base de Dados
  */
 void Teste::novoCliente() {
-    string nome, contacto;
+    string nome, contacto, verifica;
     int id, cc;
 
     try {
@@ -64,11 +63,17 @@ void Teste::novoCliente() {
             getline(cin, nome);
         } while (nome.empty());
 
-        cout << "Doc. ID: ";
-        cin >> id;
+        do {
+            cout << "Doc. ID: ";
+            cin >> verifica;
+            id = atoi(verifica.c_str());
+        } while (id == 0);
 
-        cout << "C. conducao: ";
-        cin >> cc;
+        do {
+            cout << "C. conducao: ";
+            cin >> verifica;
+            cc = atoi(verifica.c_str());
+        } while (cc == 0);
 
         do {
             cout << "Contacto: ";
@@ -77,7 +82,6 @@ void Teste::novoCliente() {
         } while (contacto.empty());
 
         c->enviarCliente(nome, id, cc, contacto);
-        delete(c);
         cout << endl << "<< Dados do cliente " << nome << " foi guardado na Base de Dados com sucesso! >>" << endl << endl;
 
 
@@ -103,7 +107,6 @@ void Teste::novoTipoCarro() {
         } while (tipo.empty());
 
         c->enviarTipoCarro(tipo);
-        delete(c);
         cout << endl << "<< Tipo Carro " << tipo << " foi guardado na Base de Dados com sucesso! >>" << endl << endl;
 
     } catch (SQLException &e) {
@@ -115,7 +118,7 @@ void Teste::novoTipoCarro() {
  * Cria novo carro na Base de Dados
  */
 void Teste::novoCarro() {
-    string marca, modelo, matricula, data, combustivel, tipoTransmissao;
+    string marca, modelo, matricula, data, combustivel, tipoTransmissao, verifica;
     int kms, nportas, npassageiros, tipoCarro;
     double preco;
     char op = 's';
@@ -126,7 +129,7 @@ void Teste::novoCarro() {
 
         do {
             cout << "Marca: ";
-            fflush(stdin);
+            setbuf(stdin, NULL);
             getline(cin, marca);
         } while (marca.empty());
 
@@ -145,8 +148,11 @@ void Teste::novoCarro() {
             cin >> data;
         } while (data.empty());
 
-        cout << "Kms: ";
-        cin >> kms;
+        do {
+            cout << "Kms: ";
+            cin >> verifica;
+            kms = atoi(verifica.c_str());
+        } while (kms == 0);
 
         do {
             cout << "Combustivel (gasoleo,gasolina): ";
@@ -158,11 +164,18 @@ void Teste::novoCarro() {
             cin >> tipoTransmissao;
         } while (tipoTransmissao.compare("manual") && tipoTransmissao.compare("automatico"));
 
-        cout << "Nº portas: ";
-        cin >> nportas;
+        do {
+            cout << "Nº portas: ";
+            cin >> verifica;
+            nportas = atoi(verifica.c_str());
+        } while (nportas == 0);
 
-        cout << "Nº passageiros: ";
-        cin >> npassageiros;
+        do {
+            cout << "Nº passageiros: ";
+            cin >> verifica;
+            npassageiros = atoi(verifica.c_str());
+        } while (npassageiros == 0);
+
 
         cout << "\nDeseja listar tipos de carro? (S/N)" << endl;
         cin >> op;
@@ -170,11 +183,17 @@ void Teste::novoCarro() {
             listaTipoCarro();
         }
 
-        cout << "Escolha o codigo do tipo de carro: ";
-        cin >> tipoCarro;
+        do {
+            cout << "Escolha o codigo do tipo de carro: ";
+            cin >> verifica;
+            tipoCarro = atoi(verifica.c_str());
+        } while (tipoCarro == 0);
 
-        cout << "Preco diario: ";
-        cin >> preco;
+        do {
+            cout << "Preco diario: ";
+            cin >> verifica;
+            preco = atof(verifica.c_str());
+        } while (preco == 0);
 
         c->enviarCarro(marca, modelo, matricula, data, kms, combustivel, tipoTransmissao, nportas, npassageiros, tipoCarro, preco);
         delete(c);
@@ -189,7 +208,7 @@ void Teste::novoCarro() {
  * Cria novo extra na Base de Dados
  */
 void Teste::novoExtra() {
-    string extra;
+    string extra, verifica;
     double preco;
 
     try {
@@ -202,8 +221,11 @@ void Teste::novoExtra() {
             getline(cin, extra);
         } while (extra.empty());
 
-        cout << "Preco: ";
-        cin >> preco;
+        do {
+            cout << "Preco: ";
+            cin >> verifica;
+            preco = atof(verifica.c_str());
+        } while (preco == 0);
 
         c->enviarExtra(extra, preco);
         delete(c);
@@ -219,7 +241,7 @@ void Teste::novoExtra() {
  */
 void Teste::novoAluguer() {
     int nCliente, nCarro, codExtra;
-    string dataLev, horaLev, dataEnt, horaEnt;
+    string dataLev, horaLev, dataEnt, horaEnt, verifica;
     double precoTotal = 0;
     char opcao = 's';
 
@@ -227,11 +249,17 @@ void Teste::novoAluguer() {
         BDados *c = new BDados(HOST, USER, PASS, DB);
         cout << "\nNOVO ALUGUER" << endl << endl;
 
-        cout << "Cliente: ";
-        cin >> nCliente;
+        do {
+            cout << "Cliente: ";
+            cin >> verifica;
+            nCliente = atoi(verifica.c_str());
+        } while (nCliente == 0);
 
-        cout << "Carro: ";
-        cin >> nCarro;
+        do {
+            cout << "Carro: ";
+            cin >> verifica;
+            nCarro = atoi(verifica.c_str());
+        } while (nCarro == 0);
 
         cout << "\n<< LEVANTAMENTO >>";
         cout << "\n\tData (YYYY-MM-DD): ";
@@ -254,8 +282,12 @@ void Teste::novoAluguer() {
         while (opcao == 's' || opcao == 'S') {
 
             listaExtras();
-            cout << "\nEscolha o codigo do extra: ";
-            cin >> codExtra;
+
+            do {
+                cout << "\nEscolha o codigo do extra: ";
+                cin >> verifica;
+                codExtra = atoi(verifica.c_str());
+            } while (codExtra == 0);
 
             //Guarda os extras selecionados
             c->enviarExtraAlugueres(codExtra);
@@ -330,7 +362,6 @@ void Teste::listaCarros() {
             (*it).escreve(cout);
         }
         delete(c);
-
     } catch (SQLException &e) {
         cerr << "Erro: " << e.what() << endl;
     }
@@ -402,7 +433,6 @@ void Teste::pesquisaAlugueres() {
         if (op == 's' || op == 'S') {
             cout << "\n\tNº Aluguer: ";
             cin >> numAluguer;
-            system("clear");
             cout << "\n\t--- Extras ---" << endl << endl;
             list<Extras> extras = c->pesquisaExtras(numAluguer);
             for (list<Extras>::iterator it = extras.begin(); it != extras.end(); it++) {
@@ -410,6 +440,112 @@ void Teste::pesquisaAlugueres() {
             }
         }
         delete(c);
+
+    } catch (SQLException &e) {
+        cerr << "Erro: " << e.what() << endl;
+    }
+}
+
+/**
+ * Pesquisa/Altera/Elimina os clientes existentes na BD por nome
+ */
+void Teste::pesquisaClientes() {
+
+    string nomeP, nome, verifica, contacto;
+    int numCliente, id = 0, cc = 0;
+    char op = 's', rsp = 'n';
+
+    try {
+        BDados *c = new BDados(HOST, USER, PASS, DB);
+        cout << "\n<< PESQUISA >>" << endl;
+
+        do {
+            cout << "\tCliente: ";
+            setbuf(stdin, NULL);
+            getline(cin, nomeP);
+        } while (nomeP.empty());
+
+        system("clear");
+        cout << "\nCLIENTE(s) COM NOME '" << nomeP << "'" << endl << endl;
+        list<Cliente> clientes = c->pesquisaCliente(nomeP);
+        for (list<Cliente>::iterator it = clientes.begin(); it != clientes.end(); it++) {
+            (*it).escreve(cout);
+        }
+        cout << "(1)-ALTERAR CLIENTE / (2)-ELIMINAR CLIENTE / (0)-Sair" << endl;
+        cin >> op;
+        if (op == '2') {
+            system("clear");
+            cout << "<< ELIMINAÇÃO DO CLIENTE >>" << endl;
+
+            do {
+                cout << "\nNº Cliente: ";
+                cin >> verifica;
+                numCliente = atoi(verifica.c_str());
+            } while (numCliente == 0);
+
+            c->eliminarCliente(numCliente);
+
+            cout << "Cliente " << numCliente << " foi eliminado com sucesso!" << endl;
+            cin.ignore().get();
+        }
+        if (op == '1') {
+            system("clear");
+            cout << "<< ALTERAÇÃO DO CLIENTE>>" << endl << endl;
+
+            do {
+                cout << "Nº Cliente a alterar? ";
+                cin >> verifica;
+                numCliente = atoi(verifica.c_str());
+            } while (numCliente == 0);
+
+            cout << "\nPretende alterar o nome? (S/N) " << endl;
+            cin >> rsp;
+            if (rsp == 'S' || rsp == 's') {
+                do {
+                    cout << "Nome: ";
+                    setbuf(stdin, NULL);
+                    getline(cin, nome);
+
+                } while (nome.empty());
+            }
+
+            cout << "\nPretende alterar o Nº Identificação? (S/N) " << endl;
+            cin >> rsp;
+            if (rsp == 'S' || rsp == 's') {
+                do {
+                    cout << "Doc. ID: ";
+                    cin >> verifica;
+                    id = atoi(verifica.c_str());
+                } while (id == 0);
+            }
+
+            cout << "\nPretende alterar o Nº da Carta Condução? (S/N) " << endl;
+            cin >> rsp;
+            if (rsp == 'S' || rsp == 's') {
+                do {
+                    cout << "C. conducao: ";
+                    cin >> verifica;
+                    cc = atoi(verifica.c_str());
+                } while (cc == 0);
+            }
+
+            cout << "\nPretende alterar o contacto? (S/N) " << endl;
+            cin >> rsp;
+            if (rsp == 'S' || rsp == 's') {
+                do {
+                    cout << "Contacto: ";
+                    setbuf(stdin, NULL);
+                    getline(cin, contacto);
+                } while (contacto.empty());
+            }
+
+            c->editarCliente(numCliente, nome, id, cc, contacto);
+            cout << endl << "Cliente " << numCliente << " alterado na Base de Dados com sucesso." << endl;
+            cin.ignore().get();
+
+        } else if (op == '0'){
+            return;
+        }
 
     } catch (SQLException &e) {
         cerr << "Erro: " << e.what() << endl;
