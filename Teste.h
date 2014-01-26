@@ -37,6 +37,7 @@ public:
 
     void pesquisaAlugueres();
     void pesquisaClientes();
+    void pesquisaDisponibilidade();
 
 };
 
@@ -59,7 +60,7 @@ void Teste::novoCliente() {
 
         do {
             cout << "Nome: ";
-            fflush(stdin);
+            setbuf(stdin, NULL);
             getline(cin, nome);
         } while (nome.empty());
 
@@ -77,7 +78,7 @@ void Teste::novoCliente() {
 
         do {
             cout << "Contacto: ";
-            fflush(stdin);
+            setbuf(stdin, NULL);
             getline(cin, contacto);
         } while (contacto.empty());
 
@@ -102,7 +103,7 @@ void Teste::novoTipoCarro() {
 
         do {
             cout << "Tipo Carro: ";
-            fflush(stdin);
+            setbuf(stdin, NULL);
             getline(cin, tipo);
         } while (tipo.empty());
 
@@ -139,12 +140,12 @@ void Teste::novoCarro() {
 
         do {
             cout << "Matricula: ";
-            fflush(stdin);
+            setbuf(stdin, NULL);
             getline(cin, matricula);
         } while (matricula.empty());
 
         do {
-            cout << "Data (YYYY/MM/DD): ";
+            cout << "Data (YYYY-MM-DD): ";
             cin >> data;
         } while (data.empty());
 
@@ -196,7 +197,6 @@ void Teste::novoCarro() {
         } while (preco == 0);
 
         c->enviarCarro(marca, modelo, matricula, data, kms, combustivel, tipoTransmissao, nportas, npassageiros, tipoCarro, preco);
-        delete(c);
         cout << endl << "<< Dados do carro " << marca << " foi guardado na Base de Dados com sucesso! >>" << endl << endl;
 
     } catch (SQLException &e) {
@@ -217,7 +217,7 @@ void Teste::novoExtra() {
 
         do {
             cout << "Extra: ";
-            fflush(stdin);
+            setbuf(stdin, NULL);
             getline(cin, extra);
         } while (extra.empty());
 
@@ -543,7 +543,7 @@ void Teste::pesquisaClientes() {
             cout << endl << "Cliente " << numCliente << " alterado na Base de Dados com sucesso." << endl;
             cin.ignore().get();
 
-        } else if (op == '0'){
+        } else if (op == '0') {
             return;
         }
 
@@ -551,6 +551,54 @@ void Teste::pesquisaClientes() {
         cerr << "Erro: " << e.what() << endl;
     }
 }
+
+/**
+ * Pesquisa disponibilidade de um tipo carro e perido indicado pelo utilizador
+ */
+void Teste::pesquisaDisponibilidade() {
+
+    string dataLev, dataEnt, horaLev, horaEnt, verifica;
+    int tipoCarro;
+
+    try {
+        BDados *c = new BDados(HOST, USER, PASS, DB);
+
+        cout << "\n<< DISPONIBILIDADES >>";
+        do {
+            cout << "\n\tCod. Tipo Carro: ";
+            cin >> verifica;
+            tipoCarro = atoi(verifica.c_str());
+        } while (tipoCarro == 0);
+
+
+        do {
+            cout << "Data Levantamento (YYYY-MM-DD): ";
+            cin >> dataLev;
+        } while (dataLev.empty());
+
+        cout << "\tHora Levantamento: ";
+        cin >> horaLev;
+
+        do {
+            cout << "Data Entrega (YYYY-MM-DD): ";
+            cin >> dataEnt;
+        } while (dataEnt.empty());
+
+        cout << "\tHora Entrega: ";
+        cin >> horaEnt;
+
+        // system("clear");
+        cout << "\nDISPONIBILIDADE " << dataLev << endl << endl;
+        list<Carro> carros = c->pesquisaDisponibilidade(tipoCarro,dataLev,horaLev,dataEnt,horaEnt);
+        for (list<Carro>::iterator it = carros.begin(); it != carros.end(); it++) {
+            cout << "\tNº Carro: " << (*it).getNumCarro() << "\n\tMarca: " << (*it).getMarca() << "\n\tModelo: " << (*it).getModelo() << "\n\tPreço: " << (*it).getPrecoDiario() << " euros" << endl << endl;
+        }
+
+    } catch (SQLException &e) {
+        cerr << "Erro: " << e.what() << endl;
+    }
+}
+
 
 #endif	/* TESTE_H */
 

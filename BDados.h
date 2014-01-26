@@ -56,6 +56,7 @@ public:
     list<Aluguer> pesquisaAluguer(string dataLev);
     list<Extras> pesquisaExtras(int numAluguer);
     list<Cliente> pesquisaCliente(string nome);
+    list<Carro> pesquisaDisponibilidade(int tipoCarro, string dataLev, string horaLev, string dataEnt, string horaEnt);
 
     void eliminarCliente(int numCliente);
 
@@ -404,6 +405,44 @@ void BDados::editarCliente(int numCliente, string nome, int id, int cc, string c
 
     ligacao->close();
 
+}
+
+list<Carro> BDados::pesquisaDisponibilidade(int tipoCarro, string dataLev, string horaLev, string dataEnt, string horaEnt) {
+
+    stringstream out;
+    list<Carro> ret;
+    bool encontrouAlugueres = false;
+
+    out << "SELECT * FROM carros,alugueres WHERE cod_tipocarro = " << tipoCarro << " AND carros.num_carro = alugueres.num_carro "
+            "AND (((data_levantamento > '" << dataLev << "'"
+            "OR (data_levantamento = '" << dataLev << "'"
+            "AND hora_levantamento > '" << horaLev << "')) "
+            "AND (data_levantamento > '"<< dataLev << "'"
+            "OR (data_levantamento = '" << dataLev << "'"
+            "AND hora_levantamento > '" << horaLev << "'))) "
+            "OR ((data_entrega < '" << dataEnt << "'"
+            "OR (data_entrega = '" << dataEnt << "'"
+            "AND hora_entrega < '" << horaEnt << "')) "
+            "AND (data_entrega < '"<< dataEnt << "'"
+            "OR (data_entrega = '" << dataEnt << "'"
+            "AND hora_entrega < '" << horaEnt << "'))))";
+    
+    string sql = out.str();
+    instrucao = ligacao->prepareStatement(sql);
+    rset = instrucao->executeQuery();
+
+    while (rset->next()) {
+        encontrouAlugueres = true;
+        Carro c(rset->getInt(1), rset->getString(2), rset->getString(3), rset->getDouble(12));
+        ret.push_back(c);
+    }
+
+    if (encontrouAlugueres == false) {
+        cout << "\t** Não existe nenhum carro para alugar no período indicado!" << endl;
+    }
+    instrucao->close();
+
+    return ret;
 }
 
 /**

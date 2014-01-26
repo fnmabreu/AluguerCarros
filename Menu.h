@@ -101,22 +101,27 @@ void Menu::menuNovo() {
             case 1:
                 system("clear");
                 exec.novoCarro();
+                cin.ignore().get();
                 break;
             case 2:
                 system("clear");
                 exec.novoCliente();
+                cin.ignore().get();
                 break;
             case 3:
                 system("clear");
                 exec.novoAluguer();
+                cin.ignore().get();
                 break;
             case 4:
                 system("clear");
                 exec.novoTipoCarro();
+                cin.ignore().get();
                 break;
             case 5:
                 system("clear");
                 exec.novoExtra();
+                cin.ignore().get();
                 break;
             case 0:
                 break;
@@ -214,7 +219,7 @@ void Menu::menuPesquisar() {
                 break;
             case 2:
                 system("clear");
-                //Disponibilidades
+                exec.pesquisaDisponibilidade();
                 cin.ignore().get();
                 break;
             case 3:

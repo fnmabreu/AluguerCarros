@@ -22,6 +22,7 @@ private:
 
 public:
     Carro();
+    Carro(int numCarro, string marca, string modelo, double precoDiario);
     Carro(int numCarro, string marca, string modelo, string matricula, Data dataMatricula, int kms, string combustivel, string tipoTransmissao, int numPortas, int numPassageiros, int codTipoCarro, double precoDiario);
     Carro(const Carro &c);
     ~Carro();
@@ -58,6 +59,13 @@ public:
 };
 
 Carro::Carro() {
+}
+
+Carro::Carro(int numCarro, string marca, string modelo, double precoDiario) {
+    setNumCarro(numCarro);
+    setMarca(marca);
+    setModelo(modelo);
+    setPrecoDiario(precoDiario);
 }
 
 Carro::Carro(int numCarro, string marca, string modelo, string matricula, Data dataMatricula, int kms, string combustivel, string tipoTransmissao, int numPortas, int numPassageiros, int codTipoCarro, double precoDiario) {
@@ -205,7 +213,7 @@ void Carro::escreve(ostream &out) const {
             << "\n\tNº Portas: " << numPortas
             << "\n\tNº Passageiros: " << numPassageiros
             << "\n\tTipo Carro: " << codTipoCarro
-            << "\n\tPreco Diario: " << precoDiario  << " euros" << endl << endl;
+            << "\n\tPreco Diario: " << precoDiario << " euros" << endl << endl;
 }
 
 ostream & operator <<(ostream &out, const Carro &c) {
